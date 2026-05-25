@@ -1,0 +1,1 @@
+dotnet ef migrations add $1 -c AppDbContext -s ../TimeTracker.API/TimeTracker.API.csproj -p ./TimeTracker.DAL.csproj
