@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TimeTracker.BLL\TimeTracker.BLL.csproj" />
+      <ProjectReference Include="..\TimeTracker.MessageQueue\TimeTracker.MessageQueue.csproj" />
     </ItemGroup>
 
 </Project>

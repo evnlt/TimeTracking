@@ -1,6 +1,5 @@
 ﻿namespace TimeTracker.DAL.Entities;
 
-// TODO - config this entity
 public class UserStatisticsEntity
 {
     public int UserId { get; set; }

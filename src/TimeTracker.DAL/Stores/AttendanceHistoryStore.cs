@@ -16,6 +16,29 @@ public class AttendanceHistoryStore : IAttendanceHistoryStore
         _appDbContext = appDbContext;
     }
 
+    public async Task Create(AttendanceHistoryModel model)
+    {
+        // TODO - move to ToEntity() method
+        var entity = new AttendanceRecordEntity
+        {
+            UserId = model.UserId,
+            AttendanceDate = DateOnly.FromDateTime(model.Timestamp),
+
+            // TODO - refactor?
+            CheckIn = model.Action == AttendanceAction.CheckIn
+                ? model.Timestamp
+                : default,
+
+            CheckOut = model.Action == AttendanceAction.CheckOut
+                ? model.Timestamp
+                : null
+        };
+
+        await _appDbContext.AttendanceRecords.AddAsync(entity);
+
+        await _appDbContext.SaveChangesAsync();
+    }
+    
     public async Task<AttendanceHistoryModel[]> GetByUser(int userId)
     {
         var entities = await _appDbContext.AttendanceRecords

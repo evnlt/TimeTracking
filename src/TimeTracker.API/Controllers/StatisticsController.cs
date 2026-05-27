@@ -2,6 +2,7 @@
 using TimeTracker.API.Extensions;
 using TimeTracker.API.Extensions.Models;
 using TimeTracker.API.Models.Worktime;
+using TimeTracker.BLL.Abstraction;
 using TimeTracker.BLL.Services;
 
 namespace TimeTracker.API.Controllers;
@@ -10,9 +11,9 @@ namespace TimeTracker.API.Controllers;
 [Route("work_time")]
 public class StatisticsController : ControllerBase
 {
-    private readonly StatisticsService _statisticsService;
+    private readonly IStatisticsService _statisticsService;
 
-    public StatisticsController(StatisticsService statisticsService)
+    public StatisticsController(IStatisticsService statisticsService)
     {
         _statisticsService = statisticsService;
     }

@@ -15,8 +15,13 @@ public static class ServiceCollectionExtensions
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             .EnableSensitiveDataLogging());
 
+        services.AddTransient<IAttendanceHistoryStore, AttendanceHistoryStore>();
         services.AddTransient<IAttendanceStore, AttendanceStore>();
         services.AddTransient<ICardStore, CardStore>();
+        services.AddTransient<IScheduleExclusionStore, ScheduleExclusionStore>();
+        services.AddTransient<IUserStatisticsStore, UserStatisticsStore>();
+        services.AddTransient<IUserStore, UserStore>();
+        services.AddTransient<IWorkScheduleStore, WorkScheduleStore>();
 
         return services;
     }

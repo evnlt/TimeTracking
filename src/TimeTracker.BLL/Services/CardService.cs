@@ -13,19 +13,19 @@ public class CardService : ICardService
     private readonly CardValidator _cardValidator;
     private readonly ICardStore _cardStore;
     private readonly IAttendanceStore _attendanceStore;
-    //private readonly IEventPublisher _publisher;
+
+    private readonly IAttendanceEventService _attendanceEventService;
 
     public CardService(
         CardValidator cardValidator,
         ICardStore cardStore,
-        IAttendanceStore attendanceStore
-        /*,
-        IEventPublisher publisher*/)
+        IAttendanceStore attendanceStore,
+        IAttendanceEventService attendanceEventService)
     {
         _cardValidator = cardValidator;
         _cardStore = cardStore;
         _attendanceStore = attendanceStore;
-        //_publisher = publisher;
+        _attendanceEventService = attendanceEventService;
     }
 
     public async Task<Result> Touch(TouchCardModel model)
@@ -35,9 +35,9 @@ public class CardService : ICardService
         {
             return validationResult;
         }
-        
+
         var card = await _cardStore.GetByUid(model.CardUid);
-        
+
         // TODO move this check into the repository
         if (card == null)
         {
@@ -54,7 +54,7 @@ public class CardService : ICardService
             UserId = userId,
             AttendanceDate = today
         });
-        
+
         AttendanceAction action;
 
         if (lastRecord == null || lastRecord.CheckOut != null)
@@ -76,7 +76,7 @@ public class CardService : ICardService
 
             action = AttendanceAction.CheckOut;
         }
-        
+
         /*try
         {
             _publisher.Publish(new CardTouchedEvent
@@ -92,6 +92,15 @@ public class CardService : ICardService
             // IMPORTANT: do NOT fail request
             _logger.LogError(ex, "RabbitMQ publish failed for CardTouched");
         }*/
+
+        // TODO - create a mapper
+        await _attendanceEventService.PublishCardTouched(new CardTouchedEventModel
+        {
+            CardUid = model.CardUid,
+            UserId = userId,
+            Timestamp = now,
+            Action = action
+        });
 
         return Result.Ok();
     }
@@ -118,7 +127,7 @@ public class CardService : ICardService
         {
             return validationResult.As<CardModel[]>();
         }
-        
+
         var cards = await _cardStore.GetByUserId(model.UserId);
 
         var result = Result<CardModel[]>.Ok(cards);
@@ -133,7 +142,7 @@ public class CardService : ICardService
         {
             return validationResult;
         }
-        
+
         var card = await _cardStore.GetByUid(model.CardUid);
 
         if (card == null)
@@ -145,7 +154,7 @@ public class CardService : ICardService
 
         return Result.Ok();
     }
-    
+
     public async Task<Result> DeleteAllByUser(DeleteAllCardsByUserModel model)
     {
         var validationResult = await _cardValidator.Validate(model);

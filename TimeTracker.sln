@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "src\Constants\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracker.Models", "src\TimeTracker.Models\TimeTracker.Models.csproj", "{23062ABA-4800-485A-A55B-E4F9F25A5487}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTracker.MessageQueue", "src\TimeTracker.MessageQueue\TimeTracker.MessageQueue.csproj", "{62FD990D-79CC-48EC-994D-B43AB03FD05B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{23062ABA-4800-485A-A55B-E4F9F25A5487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23062ABA-4800-485A-A55B-E4F9F25A5487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23062ABA-4800-485A-A55B-E4F9F25A5487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62FD990D-79CC-48EC-994D-B43AB03FD05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62FD990D-79CC-48EC-994D-B43AB03FD05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62FD990D-79CC-48EC-994D-B43AB03FD05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62FD990D-79CC-48EC-994D-B43AB03FD05B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0EA95984-FA85-49AD-A90C-71B47CA21DC3} = {3492B647-3260-4700-95AA-508E31A8D3E5}

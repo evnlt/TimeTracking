@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using TimeTracker.API.Settings;
 using TimeTracker.BLL;
 using TimeTracker.DAL;
+using TimeTracker.MessageQueue;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,8 @@ builder
             .AddBusinessLogicLayer()
             .AddDataAccessLayer(
                 globalSettings.ConnectionStrings.DefaultConnection,
-                globalSettings.ConnectionStrings.CommandTimeout);
+                globalSettings.ConnectionStrings.CommandTimeout)
+            .AddMessageQueue(globalSettings.RabbitMq);
     });
 
 builder.Services.AddControllers()

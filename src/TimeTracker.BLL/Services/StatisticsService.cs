@@ -1,11 +1,12 @@
-﻿using TimeTracker.BLL.Utilities;
+﻿using TimeTracker.BLL.Abstraction;
+using TimeTracker.BLL.Utilities;
 using TimeTracker.BLL.Validators;
 using TimeTracker.DAL.Abstraction;
 using TimeTracker.Models.Models.WorkTime;
 
 namespace TimeTracker.BLL.Services;
 
-public class StatisticsService
+public class StatisticsService : IStatisticsService
 {
     // TODO - refactor
     private readonly StatisticsValidator _statisticsValidator;
