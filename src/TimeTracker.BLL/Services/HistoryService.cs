@@ -1,4 +1,5 @@
-﻿using TimeTracker.BLL.Abstraction;
+﻿using Constants;
+using TimeTracker.BLL.Abstraction;
 using TimeTracker.BLL.Utilities;
 using TimeTracker.BLL.Validators;
 using TimeTracker.DAL.Abstraction;
@@ -30,15 +31,15 @@ public class HistoryService : IHistoryService
         return Result<AttendanceHistoryModel[]>.Ok(attendanceHistories);
     }
 
-    public async Task<Result<AttendanceHistoryModel[]>> GetAll(int limit)
+    public async Task<Result<AttendanceHistoryModel[]>> GetMany(OffsetPagination pager)
     {
-        var validationResult = await _historyValidator.ValidateUser(limit);
+        var validationResult = _historyValidator.Validate(pager);
         if (!validationResult.IsSuccess)
         {
             return validationResult.As<AttendanceHistoryModel[]>();
         }
 
-        var attendanceHistories = await _attendanceHistoryStore.GetAll(limit);
+        var attendanceHistories = await _attendanceHistoryStore.GetMany(pager);
         return Result<AttendanceHistoryModel[]>.Ok(attendanceHistories);
     }
 }

@@ -32,7 +32,8 @@ public class HistoryController : ControllerBase
     [HttpPost("history")]
     public async Task<ActionResult<AttendanceHistoryResponse[]>> History([FromBody] int limit)
     {
-        var result = await _historyService.GetAll(limit);
+        var pager = OffsetPaginationExtensions.ToOffsetPagination(limit);
+        var result = await _historyService.GetMany(pager);
         
         var resultResponse = result
             .Map(models => models.Select(_ => _.ToResponse()).ToArray());

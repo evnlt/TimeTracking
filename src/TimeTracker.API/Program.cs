@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using TimeTracker.API.Settings;
 using TimeTracker.BLL;
 using TimeTracker.DAL;
@@ -17,24 +18,30 @@ builder
             .AddDataAccessLayer(
                 globalSettings.ConnectionStrings.DefaultConnection,
                 globalSettings.ConnectionStrings.CommandTimeout)
-            .AddMessageQueue(globalSettings.RabbitMq);
+            .AddMessageQueue(globalSettings.RabbitMqSettings);
     });
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add(new ProducesAttribute("application/json"));
+        options.Filters.Add(new ConsumesAttribute("application/json"));
+    })
     .AddJsonOptions(options =>
     {
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
         options.JsonSerializerOptions.Converters.Add(
             new JsonStringEnumConverter());
     });
 
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

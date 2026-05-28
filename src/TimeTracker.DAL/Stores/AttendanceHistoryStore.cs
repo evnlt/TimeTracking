@@ -1,4 +1,5 @@
-﻿using Constants.Enums;
+﻿using Constants;
+using Constants.Enums;
 using Microsoft.EntityFrameworkCore;
 using TimeTracker.DAL.Abstraction;
 using TimeTracker.DAL.Entities;
@@ -52,12 +53,13 @@ public class AttendanceHistoryStore : IAttendanceHistoryStore
             .ToArray();
     }
 
-    public async Task<AttendanceHistoryModel[]> GetAll(int limit)
+    public async Task<AttendanceHistoryModel[]> GetMany(OffsetPagination pager)
     {
         var entities = await _appDbContext.AttendanceRecords
             .AsNoTracking()
             .OrderByDescending(x => x.CheckIn)
-            .Take(limit)
+            .Skip(pager.Offset)
+            .Take(pager.Take)
             .ToArrayAsync();
 
         return entities

@@ -2,10 +2,6 @@
 
 public class RabbitMqSettings
 {
-    // TODO - remove?
-    public Uri ServerAddress { get; set; }
-    
-    //
     public string Host { get; set; } = default!;
     public int Port { get; set; }
 

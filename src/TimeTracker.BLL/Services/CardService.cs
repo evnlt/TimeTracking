@@ -1,5 +1,6 @@
 ﻿using Constants.Enums;
 using TimeTracker.BLL.Abstraction;
+using TimeTracker.BLL.Exceptions;
 using TimeTracker.BLL.Utilities;
 using TimeTracker.BLL.Validators;
 using TimeTracker.DAL.Abstraction;
@@ -41,8 +42,7 @@ public class CardService : ICardService
         // TODO move this check into the repository
         if (card == null)
         {
-            // TODO - put error messages in constants
-            return Result.Fail("Card not found", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.CardNotFound, ErrorType.NotFound);
         }
 
         var userId = card.UserId;
@@ -76,22 +76,6 @@ public class CardService : ICardService
 
             action = AttendanceAction.CheckOut;
         }
-
-        /*try
-        {
-            _publisher.Publish(new CardTouchedEvent
-            {
-                CardUid = model.CardUid,
-                UserId = userId,
-                Timestamp = now,
-                Action = action
-            });
-        }
-        catch (Exception ex)
-        {
-            // IMPORTANT: do NOT fail request
-            _logger.LogError(ex, "RabbitMQ publish failed for CardTouched");
-        }*/
 
         // TODO - create a mapper
         await _attendanceEventService.PublishCardTouched(new CardTouchedEventModel
@@ -147,7 +131,7 @@ public class CardService : ICardService
 
         if (card == null)
         {
-            return Result.Fail("Card not found", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.CardNotFound, ErrorType.NotFound);
         }
 
         await _cardStore.Delete(card.CardUid);

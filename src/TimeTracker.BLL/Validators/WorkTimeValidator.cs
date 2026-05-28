@@ -1,4 +1,5 @@
-﻿using TimeTracker.DAL.Abstraction;
+﻿using TimeTracker.BLL.Exceptions;
+using TimeTracker.DAL.Abstraction;
 using TimeTracker.Models.Models.WorkTime;
 
 namespace TimeTracker.BLL.Validators;
@@ -17,7 +18,7 @@ public class WorkTimeValidator
         var userExists = await _userStore.DoesExist(userId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -27,7 +28,7 @@ public class WorkTimeValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
         
         // TODO - do more validation
@@ -35,7 +36,7 @@ public class WorkTimeValidator
         var userExists = await _userStore.DoesExist(model.UserId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -45,15 +46,13 @@ public class WorkTimeValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
         
-        // TODO - do more validation
-
         var userExists = await _userStore.DoesExist(model.UserId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();

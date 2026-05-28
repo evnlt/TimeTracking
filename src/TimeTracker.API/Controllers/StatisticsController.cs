@@ -30,9 +30,10 @@ public class StatisticsController : ControllerBase
     }
 
     [HttpPost("statistics")]
-    public async Task<ActionResult<UserStatisticsResponse[]>> All([FromBody] int limit) // TODO - implement pagination
+    public async Task<ActionResult<UserStatisticsResponse[]>> All([FromBody] int limit) // should implement full pagination
     {
-        var result = await _statisticsService.GetAll(limit);
+        var pager = OffsetPaginationExtensions.ToOffsetPagination(limit);
+        var result = await _statisticsService.GetMany(pager);
         
         var resultResponse = result
             .Map(models => models.Select(_ => _.ToResponse()).ToArray());

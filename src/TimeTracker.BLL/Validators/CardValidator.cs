@@ -1,4 +1,5 @@
-﻿using TimeTracker.DAL.Abstraction;
+﻿using TimeTracker.BLL.Exceptions;
+using TimeTracker.DAL.Abstraction;
 using TimeTracker.Models.Models.Cards;
 
 namespace TimeTracker.BLL.Validators;
@@ -19,12 +20,12 @@ public class CardValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
 
         if (string.IsNullOrWhiteSpace(model.CardUid))
         {
-            return Result.Fail("CardUid is required", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.CardUidRequired, ErrorType.Validation);
         }
 
         return Result.Ok();
@@ -34,27 +35,24 @@ public class CardValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
 
         if (string.IsNullOrWhiteSpace(model.CardUid))
         {
-            return Result.Fail("CardUid is required", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.CardUidRequired, ErrorType.Validation);
         }
         
-        // TODO - or invert this logic or change it
-        // are you supposed to assign with a unique new card uid?
-        // so i should check if its already assigned to some user?
         var cardExists = await _cardStore.DoesExist(model.CardUid);
         if (cardExists)
         {
-            return Result.Fail("Card does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.CardNotFound, ErrorType.NotFound);
         }
 
         var userExists = await _userStore.DoesExist(model.UserId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -64,13 +62,13 @@ public class CardValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
 
         var userExists = await _userStore.DoesExist(model.UserId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -80,13 +78,13 @@ public class CardValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
 
         var cardExists = await _cardStore.DoesExist(model.CardUid);
         if (cardExists)
         {
-            return Result.Fail("Card does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.CardNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
@@ -96,15 +94,8 @@ public class CardValidator
     {
         if (model == null)
         {
-            return Result.Fail("Model is null", ErrorType.Validation);
+            return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
-
-        // TODO - ???
-        /*var cardExists = await _cardStore.DoesExist(model.CardUid);
-        if (cardExists)
-        {
-            return Result.Fail("Card does not exist", ErrorType.NotFound);
-        }*/
 
         return Result.Ok();
     }

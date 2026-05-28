@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using TimeTracker.MessageQueue.Abstractions;
@@ -9,13 +11,16 @@ namespace TimeTracker.MessageQueue.Services;
 
 public class CardTouchedConsumer
 {
-    private ICardTouchEventProcessor _cardTouchEventProcessor;
     private readonly RabbitMqSettings _settings;
+    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ILogger<CardTouchedConsumer> _logger;
 
-    public CardTouchedConsumer(RabbitMqSettings settings, ICardTouchEventProcessor cardTouchEventProcessor)
+    public CardTouchedConsumer(RabbitMqSettings settings, IServiceScopeFactory scopeFactory,
+        ILogger<CardTouchedConsumer> logger)
     {
         _settings = settings;
-        _cardTouchEventProcessor = cardTouchEventProcessor;
+        _scopeFactory = scopeFactory;
+        _logger = logger;
     }
 
     public async Task Start()
@@ -54,13 +59,18 @@ public class CardTouchedConsumer
                     return;
                 }
 
-                await _cardTouchEventProcessor.Process(message);
+                using var scope =
+                    _scopeFactory.CreateScope();
+
+                var processor =
+                    scope.ServiceProvider
+                        .GetRequiredService<ICardTouchEventProcessor>();
+                
+                await processor.Process(message);
             }
             catch (Exception ex)
             {
-                // TODO:
-                // logger
-                Console.WriteLine(ex);
+                _logger.LogError(ex, "Failed to process CardTouched message");
             }
         };
 

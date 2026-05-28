@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Constants;
+using Microsoft.EntityFrameworkCore;
 using TimeTracker.DAL.Abstraction;
 using TimeTracker.DAL.Entities;
 using TimeTracker.Models.Models.WorkTime;
@@ -24,12 +25,13 @@ public class UserStatisticsStore : IUserStatisticsStore
         return entity == null ? null : ToModel(entity);
     }
 
-    public async Task<UserStatisticsModel[]> GetAll(int limit)
+    public async Task<UserStatisticsModel[]> GetAll(OffsetPagination pager)
     {
         var entities = await _appDbContext.UserStatistics
             .AsNoTracking()
             .OrderByDescending(x => x.UserId)
-            .Take(limit)
+            .Skip(pager.Offset)
+            .Take(pager.Take)
             .ToArrayAsync();
 
         return entities

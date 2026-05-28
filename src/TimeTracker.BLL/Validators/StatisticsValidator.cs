@@ -1,4 +1,6 @@
-﻿using TimeTracker.DAL.Abstraction;
+﻿using Constants;
+using TimeTracker.BLL.Exceptions;
+using TimeTracker.DAL.Abstraction;
 
 namespace TimeTracker.BLL.Validators;
 
@@ -12,21 +14,28 @@ public class StatisticsValidator
     }
     
     // TODO refactor
-    public async Task<Result> ValidateUser(int userId)
+    public async Task<Result> Validate(int userId)
     {
         var userExists = await _userStore.DoesExist(userId);
         if (!userExists)
         {
-            return Result.Fail("User does not exist", ErrorType.NotFound);
+            return Result.Fail(ErrorMessages.UserNotFound, ErrorType.NotFound);
         }
 
         return Result.Ok();
     }
     
-    // TODO refactor
-    public async Task<Result> ValidateLimit(int limit)
+    public Result Validate(OffsetPagination pager)
     {
-        // TODO validation
+        if (pager.Offset < 0)
+        {
+            return Result.Fail(ErrorMessages.NegativeOffset, ErrorType.Validation);
+        }
+
+        if (pager.Take <= 0)
+        {
+            return Result.Fail(ErrorMessages.TakeLessThatOne, ErrorType.Validation);
+        }
 
         return Result.Ok();
     }
