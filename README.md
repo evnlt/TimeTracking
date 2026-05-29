@@ -1,3 +1,27 @@
+## Project overview
+
+TimeTracker is a lightweight employee attendance system using NFC cards.
+
+Employees “tap” their NFC card twice per day:
+
+- Check-in (start work)
+- Check-out (end work)
+
+The system tracks:
+
+- attendance history;
+- working time statistics;
+- schedule rules and exclusions;
+
+## Key endpoints
+- POST /card/touch – register NFC card touch
+- POST /card/assign – assign card to user
+- POST /card/delete – remove card
+- POST /work_time/set – set schedule
+- POST /work_time/add_exclusion – add schedule exception
+- GET /work_time/history_by_user – user history
+- GET /work_time/statistics_by_user – user stats
+
 ## Docker setup for Windows
 
 1. Setup `PostgreSQL`
