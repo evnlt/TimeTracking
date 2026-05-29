@@ -2,7 +2,7 @@
 
 public static class ErrorMessages
 {
-    public const string ModelIsNull = "Model is null"; // TODO - should i say model is null??
+    public const string ModelIsNull = "Model is null";
     public const string CardNotFound = "Card not found";
     public const string UserNotFound = "User not found";
     public const string CardUidRequired = "CardUid is required";

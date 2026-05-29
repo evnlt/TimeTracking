@@ -30,8 +30,6 @@ public class WorkTimeValidator
         {
             return Result.Fail(ErrorMessages.ModelIsNull, ErrorType.Validation);
         }
-        
-        // TODO - do more validation
 
         var userExists = await _userStore.DoesExist(model.UserId);
         if (!userExists)

@@ -32,7 +32,6 @@ public class CardStore : ICardStore
 
     public async Task Assign(AssignUserModel model, DateTime assignedAt)
     {
-        // TODO - refactor to execute update
         var entity = await _appDbContext.Cards
             .FirstAsync(_ => _.CardUid == model.CardUid);
 

@@ -9,7 +9,6 @@ namespace TimeTracker.BLL.Services;
 
 public class StatisticsService : IStatisticsService
 {
-    // TODO - refactor
     private readonly StatisticsValidator _statisticsValidator;
     private readonly IUserStatisticsStore _userStatisticsStore;
 

@@ -17,7 +17,6 @@ public class UserStatisticsStore : IUserStatisticsStore
 
     public async Task<UserStatisticsModel?> GetByUser(int userId)
     {
-        // TODO - figure out tracking
         var entity = await _appDbContext.UserStatistics
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.UserId == userId);

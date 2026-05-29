@@ -24,7 +24,6 @@ public class WorkTimeService : IWorkTimeService
 
     public async Task<Result> Set(WorkScheduleModel model)
     {
-        // TODO - maybe refactor to make this shorter
         var validationResult = await _workTimeValidator.Validate(model);
         if (!validationResult.IsSuccess)
         {

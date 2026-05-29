@@ -51,7 +51,7 @@ public static class CardExtensions
         return new ListUserCardsResponse
         {
             UserId = userId,
-            Cards = cards.Select(x => x.CardUid).ToArray()// TODO - refactor??
+            Cards = cards.Select(x => x.CardUid).ToArray()
         };
     }
 }

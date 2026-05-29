@@ -22,7 +22,6 @@ public class WorkScheduleConfiguration : IEntityTypeConfiguration<WorkScheduleEn
         builder.Property(x => x.FreeSchedule)
             .IsRequired();
 
-        // TODO - think about this
         builder.Property(x => x.WorkingDays)
             .HasConversion(
                 v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null!),

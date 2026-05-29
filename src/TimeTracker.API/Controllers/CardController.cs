@@ -27,7 +27,7 @@ public class CardController : ControllerBase
         return result.ToActionResult();
     }
 
-    // TODO - maybe put these endpoints into some AdminCardController?
+    // maybe put these endpoints into some AdminCardController?
     [HttpPost("assign")]
     public async Task<ActionResult<AssignUserResponse>> Assign(
         [FromBody] AssignUserRequest request)

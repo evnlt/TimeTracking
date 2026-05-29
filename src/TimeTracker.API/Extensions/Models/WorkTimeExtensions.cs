@@ -3,7 +3,6 @@ using TimeTracker.Models.Models.WorkTime;
 
 namespace TimeTracker.API.Extensions.Models;
 
-// TODO - unit test
 public static class WorkTimeExtensions
 {
     public static WorkScheduleModel ToModel(this SetWorkScheduleRequest request)

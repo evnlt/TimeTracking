@@ -1,6 +1,5 @@
 ﻿namespace TimeTracker.BLL;
 
-// TODO - move this class to common proj?
 public class Result
 {
     public bool IsSuccess { get; init; }

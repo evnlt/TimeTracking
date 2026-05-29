@@ -4,7 +4,6 @@ using TimeTracker.Models.Models.Cards;
 
 namespace TimeTracker.BLL.Validators;
 
-// TODO - create an interface?
 public class CardValidator
 {
     private readonly IUserStore _userStore;

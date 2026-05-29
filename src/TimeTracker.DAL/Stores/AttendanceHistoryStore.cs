@@ -19,13 +19,11 @@ public class AttendanceHistoryStore : IAttendanceHistoryStore
 
     public async Task Create(AttendanceHistoryModel model)
     {
-        // TODO - move to ToEntity() method
         var entity = new AttendanceRecordEntity
         {
             UserId = model.UserId,
             AttendanceDate = DateOnly.FromDateTime(model.Timestamp),
 
-            // TODO - refactor?
             CheckIn = model.Action == AttendanceAction.CheckIn
                 ? model.Timestamp
                 : default,

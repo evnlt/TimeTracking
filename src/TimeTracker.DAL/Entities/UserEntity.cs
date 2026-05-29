@@ -3,7 +3,6 @@
 /// <summary>
 /// Represents an employee
 /// </summary>
-// TODO - rename to employee
 public class UserEntity
 {
     public int Id { get; set; }

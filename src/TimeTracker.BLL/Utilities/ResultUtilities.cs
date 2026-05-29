@@ -1,6 +1,5 @@
 ﻿namespace TimeTracker.BLL.Utilities;
 
-// TODO - ???
 public static class ResultUtilities
 {
     public static Result<T> As<T>(this Result result)

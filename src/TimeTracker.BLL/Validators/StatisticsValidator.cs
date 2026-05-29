@@ -13,7 +13,6 @@ public class StatisticsValidator
         _userStore = userStore;
     }
     
-    // TODO refactor
     public async Task<Result> Validate(int userId)
     {
         var userExists = await _userStore.DoesExist(userId);
